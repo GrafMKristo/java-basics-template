@@ -13,7 +13,9 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int compare(int value1, int value2) {
-        return -2;
+        if (value1 > value2) return 1;
+        if (value1 < value2) return -1;
+        return 0;
     }
 
     /**
@@ -22,7 +24,8 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        if (value1 > value2) return value1;
+        return value2;
     }
 
     /**
@@ -31,7 +34,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int result = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (result<values[i]) result = values[i];
+        }
+        return result;
     }
 
     /**
@@ -40,7 +47,9 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        int result = 0;
+        for(int num: values) result += num;
+        return result;
     }
 
     /**
@@ -49,7 +58,14 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        int[] tempArray = new int[values.length];
+        int counter=0;
+        for (int n:values){
+            if (n%2==0) tempArray[counter++] = n;
+        }
+        int[] result = new int[counter];
+        for (int i = 0; i<counter; i++) result[i] = tempArray[i];
+        return result;
     }
 
     /**
@@ -59,7 +75,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+        if (initialVal<0) throw new IllegalArgumentException("An argument must be a natural number!");
+        if (initialVal==0) return 1;
+        int result = 1;
+        while (initialVal>1) result *= initialVal--;
+        return result;
     }
 
     /**
@@ -74,7 +94,18 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
+        if (number<0) throw new IllegalArgumentException("An argument must be a natural number!");
+        if (number==0) return 0;
+        if (number==1) return 1;
+        int grandpa = 0;
+        int dad = 1;
+        int son = 0;
+        for (int i = 2; i <= number; i++){
+            son = grandpa + dad; // here
+            grandpa = dad;
+            dad = son;
+        }
+        return son;
     }
 
     /**
@@ -83,7 +114,17 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        int temp;
+        for (int i = 0; i< values.length-1; i++){
+            for (int j = i; j<values.length; j++){
+                if (values[i]>values[j]) {
+                    temp = values[i];
+                    values[i]=values[j];
+                    values[j]=temp;
+                }
+            }
+        }
+        return values;
     }
 
     /**
@@ -94,7 +135,8 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
-        return false;
+        for (int i=2; i<= number/2; i++) if (number % i == 0) return false;
+        return true;
     }
 
     /**
@@ -104,6 +146,12 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        int temp;
+        for (int i = 0; i< values.length/2; i++){
+                    temp = values[i];
+                    values[i]=values[values.length - i - 1];
+                    values[values.length - i - 1]=temp;
+        }
+        return values;
     }
 }
